@@ -1,4 +1,4 @@
-> wmic CPU get Name,NumberOfCores,NumberOfLogicalProcessors
+﻿> wmic CPU get Name,NumberOfCores,NumberOfLogicalProcessors
 Name                                      NumberOfCores  NumberOfLogicalProcessors
 Intel(R) Xeon(R) CPU E5-2665 0 @ 2.40GHz  2
        2
