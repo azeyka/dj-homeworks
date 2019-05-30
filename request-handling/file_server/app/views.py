@@ -2,13 +2,13 @@ import datetime
 import os
 
 from django.shortcuts import render
-    from django.conf import settings
+from django.conf import settings
 
-def file_list(request, year=None, month=None, day=None):
+
+def file_list(request, date=None):
     template_name = 'index.html'
     context = {
-        'files': []
-        # 'date': datetime.date(2018, 5, 1)  # Этот параметр необязательный
+        'files': [],
     }
 
     files = os.listdir(settings.FILES_PATH)
@@ -22,14 +22,16 @@ def file_list(request, year=None, month=None, day=None):
 
         info = {
             'name': file_name,
-            'ctime': str(ctime),
-            'mtime': str(mtime)
+            'ctime': convert_date(ctime),
+            'mtime': convert_date(mtime)
                 }
 
-        if year and month and day:
-            print(year, month, day)
-            if year == ctime.year and month == ctime.month and day == ctime.day:
+        if date:
+            [year, month, day] = date.split('-')
+
+            if int(year) == ctime.year and int(month) == ctime.month and int(day) == ctime.day:
                 context['files'].append(info)
+                context['date'] = f'{day} {convert_month(int(month))} {year} г.'
         else:
             context['files'].append(info)
 
@@ -46,3 +48,35 @@ def file_content(request, name):
         context={'file_name': name, 'file_content': text}
     )
 
+def convert_date(date):
+    return {
+        'date': f'{date.year}-{date.month}-{date.day}',
+        'date_to_show': f'{date.day} {convert_month(date.month)} {date.year} г.',
+        'time': f'{date.hour}:{date.minute}'
+    }
+
+def convert_month(month_num):
+    if month_num == 1:
+        return 'января'
+    elif month_num == 2:
+        return 'февраля'
+    elif month_num == 3:
+        return 'марта'
+    elif month_num == 4:
+        return 'апреля'
+    elif month_num == 5:
+        return 'мая'
+    elif month_num == 6:
+        return 'июня'
+    elif month_num == 7:
+        return 'июля'
+    elif month_num == 8:
+        return 'августа'
+    elif month_num == 9:
+        return 'сентября'
+    elif month_num == 10:
+        return 'октября'
+    elif month_num == 11:
+        return 'ноября'
+    elif month_num == 12:
+        return 'декабря'
