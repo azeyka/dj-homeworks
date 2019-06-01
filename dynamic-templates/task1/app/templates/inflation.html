@@ -1,4 +1,4 @@
-<!DOCTYPE html>{% load static %}
+<!DOCTYPE html>{% load new_filters %}
 <html>
   <head>
     <meta charset="UTF-8">
@@ -17,9 +17,24 @@
       <div class="row">
         <h1 class="col s12">Инфляция в России</h1>
         <div class="col s12 m8">
-        
-        <!-- Ваша логика -->
+          <table>
+            <tr>
+              {% for th in table_heads %}
+                <th>{{ th }}</th>
+              {% endfor %}
+            </tr>
 
+            {% for row in values %}
+              <tr>
+                {% for value in row %}
+                  <td style="background: {{ value|stylize:row }}">
+                    {{ value }}
+                    {% if not value %}-{% endif %}
+                  </td>
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </table>
         </div>
       </div>
     {% endblock %}
