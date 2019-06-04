@@ -3,6 +3,7 @@ import os
 
 from django.shortcuts import render
 from django.conf import settings
+from django.http import Http404
 
 
 def file_list(request, date=None):
@@ -22,16 +23,19 @@ def file_list(request, date=None):
 
         info = {
             'name': file_name,
-            'ctime': convert_date(ctime),
-            'mtime': convert_date(mtime)
+            'ctime': ctime,
+            'mtime': mtime
                 }
 
         if date:
-            [year, month, day] = date.split('-')
+            try:
+                f_date = datetime.datetime.strptime(date, '%Y-%m-%d')
 
-            if int(year) == ctime.year and int(month) == ctime.month and int(day) == ctime.day:
-                context['files'].append(info)
-                context['date'] = f'{day} {convert_month(int(month))} {year} г.'
+                if f_date.date() == ctime.date():
+                    context['files'].append(info)
+                    context['date'] = f_date.date()
+            except:
+                raise Http404
         else:
             context['files'].append(info)
 
@@ -39,6 +43,10 @@ def file_list(request, date=None):
 
 def file_content(request, name):
     file_path = os.path.join(settings.FILES_PATH, name)
+
+    if not os.path.isfile(file_path):
+        raise Http404
+
     with open(file_path, 'r') as file:
         text = file.read()
 
@@ -47,36 +55,3 @@ def file_content(request, name):
         'file_content.html',
         context={'file_name': name, 'file_content': text}
     )
-
-def convert_date(date):
-    return {
-        'date': f'{date.year}-{date.month}-{date.day}',
-        'date_to_show': f'{date.day} {convert_month(date.month)} {date.year} г.',
-        'time': f'{date.hour}:{date.minute}'
-    }
-
-def convert_month(month_num):
-    if month_num == 1:
-        return 'января'
-    elif month_num == 2:
-        return 'февраля'
-    elif month_num == 3:
-        return 'марта'
-    elif month_num == 4:
-        return 'апреля'
-    elif month_num == 5:
-        return 'мая'
-    elif month_num == 6:
-        return 'июня'
-    elif month_num == 7:
-        return 'июля'
-    elif month_num == 8:
-        return 'августа'
-    elif month_num == 9:
-        return 'сентября'
-    elif month_num == 10:
-        return 'октября'
-    elif month_num == 11:
-        return 'ноября'
-    elif month_num == 12:
-        return 'декабря'
