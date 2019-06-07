@@ -30,14 +30,15 @@ def file_list(request, date=None):
         if date:
             try:
                 f_date = datetime.datetime.strptime(date, '%Y-%m-%d')
-
                 if f_date.date() == ctime.date():
                     context['files'].append(info)
-                    context['date'] = f_date.date()
             except:
                 raise Http404
         else:
             context['files'].append(info)
+
+    if date:
+        context['date'] = f_date.date()
 
     return render(request, template_name, context)
 
