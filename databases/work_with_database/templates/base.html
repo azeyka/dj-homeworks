@@ -13,7 +13,19 @@
   </head>
 
   <body>
-    {% block content %}{% endblock %}
+    {% block content %}
+       <div class="phone" style="display: inline-block; width: 500px; margin-bottom: 30px; margin-top: 30px;">
+          <div>
+              <h1><a href="/catalog/{{ phone.slug }}">{{ phone.name }}</a></h1>
+          </div>
+
+          <div class="price">
+              <h5 class="price">Стоимость: {{ phone.price }} руб.</h5>
+          </div>
+
+           <img style="width: 200px" src="{{ phone.image }}" alt="{{ phone.slug }}-img">
+        </div>
+    {% endblock %}
 
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>

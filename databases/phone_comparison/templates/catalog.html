@@ -7,5 +7,22 @@
         <div class="header">
             <h1>Сравнение телефонов</h1>
         </div>
+
+        <table>
+          {% for line in characteristics.values %}
+            <tr>
+              {% if line == characteristics.model %}
+                {% for el in line %}
+                  <th style="width:15%">{{ el }}</th>
+                {% endfor %}
+              {% else %}
+                {% for el in line %}
+                  <td style="width:15%">{{ el }}</td>
+                {% endfor %}
+              {%  endif %}
+
+            </tr>
+          {% endfor %}
+        </table>
     </div>
 {% endblock %}

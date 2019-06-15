@@ -7,13 +7,17 @@
         <div class="header">
             <h1><a href="/catalog">Каталог</a></h1>
         </div>
-
         <div class="sort-block">
-            {# Здесь должен быть раздел с сортировкой #}
+            Сортировать по:
+            <a class="sort-item" style="padding-right: 20px;" href="/catalog?sort=name"> по названию </a>
+            <a class="sort-item" style="padding-right: 20px;" href="/catalog?sort=min_price"> начиная с дешевых </a>
+            <a class="sort-item" style="padding-right: 20px;" href="/catalog?sort=max_price"> начиная с дорогих </a>
         </div>
 
         <div class="content">
-            {# Здесь должен отображаться каталог с телефонами #}
+            {% for phone in phones %}
+                {{ block.super }}
+            {% endfor %}
         </div>
     </div>
 {% endblock %}

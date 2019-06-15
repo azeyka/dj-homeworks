@@ -7,8 +7,14 @@
         <div class="header">
             <h1>Телефон</h1>
         </div>
+        <a href="/catalog">< Назад к каталогу</a>
         <div class="content">
+            {{ block.super }}
+            <h5>Дата релиза: {{ phone.release_date|date:"d.m.Y" }}</h5>
 
+            {% if phone.lte_exists %}
+                <h5>Поддержка LTE</h5>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
