@@ -1,4 +1,5 @@
-from django.forms.widgets import TextInput
+from django.forms.widgets import TextInput, DateInput
+from datetime import datetime
 
 
 class AjaxInputWidget(TextInput):
@@ -14,3 +15,6 @@ class AjaxInputWidget(TextInput):
         context = super().get_context(name, value, attrs)
         context['widget']['url'] = self.url
         return context
+
+class CalendarWidget(DateInput):
+    template_name = 'widget/calendar.html'

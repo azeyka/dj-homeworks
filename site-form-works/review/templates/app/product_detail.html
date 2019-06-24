@@ -16,7 +16,7 @@
         <p>Можете добавить обзор</p>
     {% endif %}
 
-    <form action="{% url 'product_detail' product.id %}" method="POST">
+    <form action="{% url 'product_detail' product.id %}" method="POST" {% if is_review_exist %}style="display: none"{% endif %}>
         {% csrf_token %}
         {{ form }}
         <br>
