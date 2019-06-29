@@ -7,6 +7,68 @@
     <div class="container">
         <div class="header">
             <h1>Игра "Угадай число"</h1>
+            <p>ID игры: {{ game.game_id }}</p>
+
+            <div>
+                <p>Игроки:</p>
+                <ol>
+                    {% for player_ in all_players %}
+                        {% if player_.player_id == game.game_winner %}
+                            <li>{{ player_.player_id }} <span style="font-weight: bold">(Победитель)</span> </li>
+                        {% elif player_.player_id == player.player_id %}
+                            <li>{{ player_.player_id }} (Вы)</li>
+                        {% elif player_.player_id == game.game_creator %}
+                            <li>{{ player_.player_id }} (Создатель)</li>
+                        {% else %}
+                            <li>{{ player_.player_id }}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ol>
+            </div>
         </div>
+
+        {% if info.is_game_creator %}
+            {% if game.number == None %}
+                <form method="post">
+                    {% csrf_token %}
+                    {{ form }}
+                    <input type="submit" value="OK">
+                </form>
+            {% else %}
+                <p style="font-weight: bold">Вы загадали число {{ game.number }}</p>
+                <p style="font-size: 12px">Другие игроки будут пытаться отгадать его</p>
+            {% endif %}
+        {% else %}
+            {% if game.number == None %}
+                <p>Подождите пока другой игрок загадает число.</p>
+            {% else %}
+                <p>Другой игрок загадал число!</p>
+                <p>Вы совершили {{ info.tries_number }} попыток</p>
+                {% if not game.is_finished %}
+                    <form method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <input type="submit" value="ПРОВЕРИТЬ">
+                    </form>
+
+                    {% if info.last_try_number %}
+                        {% if info.last_try_number == game.number %}
+                            <p style="font-weight: bold">Вы угадали число!</p>
+                        {% elif info.last_try_number > game.number %}
+                            <p style="font-weight: bold">Заданное число меньше {{ info.last_try_number }}</p>
+                        {% elif info.last_try_number < game.number%}
+                            <p style="font-weight: bold">Заданное число больше {{ info.last_try_number }}</p>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
+        {% endif %}
+        {% if game.is_finished %}
+            {% if game.game_winner == player.player_id %}
+                <p style="font-weight: bold">Вы угадали число! Поздравляем!</p>
+            {% else %}
+                <p style="font-weight: bold">Число отгадал {{ game.game_winner }} c {{ game.tries_number }} попыток.</p>
+            {% endif %}
+        {% endif %}
     </div>
 {% endblock %}

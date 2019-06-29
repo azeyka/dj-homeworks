@@ -6,7 +6,18 @@
 {% block content %}
     <div class="container">
         <div class="header">
-            <h3>Заголовок статьи</h3>
+            <h3>{{ article.title }}</h3>
         </div>
+        {% if not user.has_subscription and article.paid%}
+            <div style="margin: 30px 0"> Для того чтобы читать данную статью, необходимо подписаться на журнал! </div>
+
+            <form action="/subscribe/?id={{ article.id }}" method="post">
+                {% csrf_token %}
+                <input type="submit" class="btn" value="Подписаться" style="background: red; color: white">
+            </form>
+        {% else %}
+            <img src="{{ article.image.url }}" alt="img" style="width: 70%; border-style: groove">
+            <div style="margin: 30px 0"> {{ article.text }}</div>
+        {% endif %}
     </div>
 {% endblock %}

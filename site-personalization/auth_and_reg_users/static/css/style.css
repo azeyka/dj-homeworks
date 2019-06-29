@@ -4,6 +4,7 @@
 
 .auth-btn {
     margin-top: 5px;
+    color: #6f42c1;
 }
 
 #id_username, #id_password, #id_password1, #id_password2 {
