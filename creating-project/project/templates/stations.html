@@ -6,13 +6,13 @@
         Для запуска на сервере, укажите свой API-ключ. Тестовый ключ НЕ БУДЕТ работать на других сайтах.
         Получить ключ можно в Кабинете разработчика: https://developer.tech.yandex.ru/keys/
     -->
-    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=<ваш API-ключ>" type="text/javascript"></script>
+    <script src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&amp;apikey=d5733261-3863-488b-9f9d-c06fd904dc74" type="text/javascript"></script>
     <script type="text/javascript">
       ymaps.ready(init);
 
       function init() {
         var myMap = new ymaps.Map("map", {
-          center: [{{ center.y }}, {{ center.x }}],
+          center: [{{ center.x }}, {{ center.y }}],
           zoom: 13
         }, {
           searchControlProvider: 'yandex#search'
