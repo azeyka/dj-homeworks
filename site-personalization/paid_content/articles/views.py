@@ -14,15 +14,19 @@ def show_articles(request):
     )
 
 def show_article(request, id):
-    user = Profile.objects.get(user=request.user)
+    context = {}
+    
+    if not request.user.is_anonymous:
+        user = Profile.objects.get(user=request.user)
+        context['user'] = user
+        
     article = Article.objects.get(id=id)
+    context['article'] = article
+    
     return render(
         request,
         'article.html',
-        {
-            'article': article,
-            'user': user
-        }
+        context
     )
 
 def subscribe(request):
