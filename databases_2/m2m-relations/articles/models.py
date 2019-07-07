@@ -29,7 +29,7 @@ class Section(models.Model):
 class Relationship(models.Model):
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
     section = models.ForeignKey(Section, on_delete=models.CASCADE)
-    is_main = models.BooleanField(verbose_name='Основаной раздел')
+    is_main = models.BooleanField(verbose_name='Основной раздел')
 
     class Meta:
         verbose_name = 'раздел'
